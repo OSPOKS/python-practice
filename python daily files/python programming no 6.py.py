@@ -15,10 +15,7 @@ class ImageInfo:
         self.center = center
         self.size = size
         self.radius = radius
-        if lifespan:
-            self.lifespan = lifespan
-        else:
-            self.lifespan = float('inf')
+        self.lifespan = lifespan or float('inf')
         self.animated = animated
 
     def get_center(self):
@@ -347,16 +344,15 @@ def draw(canvas):
 # timer handler that spawns a rock    
 def rock_spawner():
     
-    if started:
-        if len(rock_group) != 12:
-            rock_pos = [random.randrange(0, WIDTH), random.randrange(0, HEIGHT)]
-            
-            if not (dist(my_ship.get_position(), rock_pos) <= 10):
-                rock_vel = [(random.random() * .6 - .3) + score/5.0 , (random.random() * .6 - .3) + score/5.0]
-                rock_avel = random.random() * .2 - .1
-                a_rock = Sprite(rock_pos, rock_vel, 0, rock_avel, asteroid_image, asteroid_info)
+    if started and len(rock_group) != 12:
+        rock_pos = [random.randrange(0, WIDTH), random.randrange(0, HEIGHT)]
 
-                rock_group.add(a_rock)
+        if dist(my_ship.get_position(), rock_pos) > 10:
+            rock_vel = [(random.random() * .6 - .3) + score/5.0 , (random.random() * .6 - .3) + score/5.0]
+            rock_avel = random.random() * .2 - .1
+            a_rock = Sprite(rock_pos, rock_vel, 0, rock_avel, asteroid_image, asteroid_info)
+
+            rock_group.add(a_rock)
 
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
